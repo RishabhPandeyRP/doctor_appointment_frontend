@@ -1,0 +1,251 @@
+.nav {
+    border: 0px solid red;
+    width: 100%;
+    height: 16%;
+    padding: 0px 3%;
+    box-sizing: border-box;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    font-family: var(--font-montserrat), sans-serif;
+    /* Apply font */
+
+
+}
+
+.content {
+    border: 0px solid green;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 1%;
+}
+
+.img-container {
+    position: relative;
+    width: 250px;
+    height: 100%;
+}
+
+.img {
+    border: 0px solid green;
+    object-fit: contain;
+}
+
+.nav-links {
+    border: 0px solid black;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    box-sizing: border-box;
+    border: 0px solid black;
+    justify-content: space-around;
+    align-items: center;
+    text-decoration: none;
+    width: 50%;
+    /* gap: 2%; */
+}
+
+.nav-items {
+    border: 0px solid black;
+    color: #8c8c8c;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.nav-items a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+/* .nav-btn {
+    width: 29%;
+    border: 0px solid black;
+    display: flex;
+    justify-content: space-between;
+} */
+
+.nav-btnMob {
+    display: none;
+    border: 0px solid red;
+}
+
+.signupbtn {
+    /* height: 40px; */
+    padding: 10px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #1C4A2A;
+    color: white;
+    cursor: pointer;
+}
+
+.loginbtn {
+    padding: 10px 35px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid rgba(220, 220, 220, 0.673);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.mobBtn {
+    /* padding: 10px; */
+    cursor: pointer;
+    /* position:absolute;
+    right: 10px;
+    top: 20px; */
+    z-index: 100;
+    height: 24px;
+
+
+    display: none;
+
+}
+.nav-listMob{
+    display: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 16%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+    z-index: 80;
+    display: none;
+}
+
+@media screen and (max-width:1024px) {
+    .nav-list {
+        width: 58%;
+    }
+
+    .nav-btn {
+        width: 35%;
+    }
+
+    .nav-btnMob{
+        display: none;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .content {
+        border: 0px solid red;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .overlay{
+        display: block;
+    }
+
+    .img-container {
+        width: 200px;
+    }
+
+    .mobBtn {
+        display: block;
+        width: 30px;
+        height: 30px;
+        padding: 2px 2px;
+        box-sizing: border-box;
+    }
+
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        border: 0px solid red;
+        flex-direction: column;
+        position: absolute;
+        top: 16.2%;
+        left: 0%;
+        width: 60%;
+        border-radius: 0px;
+        height: 80%;
+        background-color: white;
+        color: white;
+        backdrop-filter: blur(50px);
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        padding: 80px 20px 20px;
+        transition: right 0.3s ease;
+        z-index: 90;
+    }
+
+    .nav-links.open {
+        left: 0;
+    }
+
+    .nav-listMob {
+        display: flex;
+        list-style: none;
+        box-sizing: border-box;
+        border: 0px solid black;
+        justify-content: space-around;
+        align-items: center;
+        text-decoration: none;
+        /* width: 50%; */
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    /* .nav-btn {
+        width: 100%;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-btn a {
+        width: 100%;
+    }
+
+    .loginbtn,
+    .signupbtn {
+        width: 100%;
+    } */
+
+    .nav-btnMob{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-btnMob a {
+        width: 100%;
+    }
+
+    .nav-btnMob .loginbtn,
+    .nav-btnMob .signupbtn {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .img-container {
+        width: 150px;
+    }
+
+    .nav-links {
+        width: 80%;
+    }
+}
