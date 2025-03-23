@@ -44,6 +44,10 @@
 
 .muted-text-2{
     color: #1C4A2A;
+    
+}
+.muted-text-2 a{
+    text-decoration: none;
 }
 
 
