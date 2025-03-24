@@ -1,29 +1,34 @@
 import styles from "@/styles/DocProfile.module.css"
 import React from "react"
-import doc_list from "@/data/doctors.json"
+// import doc_list from "@/data/doctors.json"
 import { notFound } from "next/navigation"
-import { Doctor } from "@/data/doctors.types"
+// import { Doctor } from "@/data/doctors.types"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import axios from "axios"
+import { cookies } from "next/headers"
 
-export default async function DocProfile({ params }: { params: { id: string } }) {
-    function getDocById(): Doctor {
-        let doc = doc_list.find(doc => doc.id.toString() === params.id.toString())
 
-        if (!doc) {
-            throw new Error("No doctor found")
-        }
+export default async function DocProfile({ params }: { params: { id?: string } }) {
+    const Cookie = await cookies()
+    const token = Cookie.get("token")?.value;
 
-        return doc
+    const id = params?.id
+
+    if(!token || !id){
+        return notFound()
     }
 
-    let doc: Doctor = getDocById()
-    if (!doc) return notFound()
+    const response  = await axios.get(`http://localhost:5000/doctors/${id}`, {
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    })
 
-    console.log(doc)
+    console.log("response from profile is " , response.data.docname)
 
     const bookingNavigate = () => {
-        redirect(`/doctors2/${params.id}/bookSlot`)
+        redirect(`/doctors2/${id}/bookSlot`)
     }
 
     return (
@@ -44,13 +49,13 @@ export default async function DocProfile({ params }: { params: { id: string } })
                     </div>
                     <div className={styles.profileRatingBox}>
                         <div className={styles.profileRatingTitle}>Rating</div>
-                        <div className={styles.profileRatingStars}>{Array(doc.rating).fill('★').join('')}
-                            {Array(5 - doc.rating).fill('☆').join('')}</div>
+                        <div className={styles.profileRatingStars}>{Array(response.data.docname.rating).fill('★').join('')}
+                            {Array(5 - response.data.docname.rating).fill('☆').join('')}</div>
                     </div>
                 </div>
 
                 <div className={styles.profileContentRight}>
-                    <div className={styles.profileName}>{doc.name}</div>
+                    <div className={styles.profileName}>{response.data.docname.doctor_name}</div>
 
                     <div className={styles.profileData}>
                         <div className={styles.profileDataKeys}>
@@ -62,15 +67,15 @@ export default async function DocProfile({ params }: { params: { id: string } })
                         </div>
 
                         <div className={styles.profileDataValues}>
-                            <div>{doc.specialization}</div>
-                            <div>{doc.experience}</div>
-                            <div>{doc.gender}</div>
+                            <div>{response.data.docname.specialty}</div>
+                            <div>{response.data.docname.experience}</div>
+                            <div>{response.data.docname.gender}</div>
                             <div className={styles.profileDiseases}>
-                                {doc.diseases.map((disease , index) => (
+                                {response.data.docname.diseases.map((disease:string , index:number) => (
                                     <div className={styles.profileDiseasesCard} key={index}>{disease}</div>
                                 ))}
                             </div>
-                            <div>{doc.name} is a highly skilled {doc.specialization} with {doc.experience}  of experience. They specialize in treating {doc.diseases.map(disease => disease)}</div>
+                            <div>{response.data.docname.doctor_name} is a highly skilled {response.data.docname.specialty} with {response.data.docname.experience}  of experience. They specialize in treating {response.data.docname.diseases.map((disease:string) => disease)}</div>
                         </div>
                     </div>
                 </div>

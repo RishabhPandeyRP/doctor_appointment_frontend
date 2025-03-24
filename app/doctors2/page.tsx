@@ -53,7 +53,6 @@ const Doctors = ()=>{
             // setFilterDoc()
         }
     },[])
-
     
 
     const addFilter = (search_value:string = termSearched ,filterVal: FilterState = filter )=>{

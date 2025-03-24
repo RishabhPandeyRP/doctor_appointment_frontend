@@ -1,11 +1,11 @@
 import DocCard from "./DocCard"
 import styles from "@/styles/DocList.module.css"
 import React from "react"
-import { Doctor } from "@/data/doctors.types"
+import { Doctor , DoctorBackend } from "@/data/doctors.types"
 
 interface DocListParams{
     onDocClick: (docId:number)=>void
-    doc:Doctor[]
+    doc:DoctorBackend[]
 }
 const DocList = ({onDocClick , doc} : DocListParams) => {
     return (

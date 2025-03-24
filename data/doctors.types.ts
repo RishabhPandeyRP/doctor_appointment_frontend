@@ -9,6 +9,17 @@ export interface Doctor {
     diseases: string[];
   }
 
+  export interface DoctorBackend {
+    id: number;
+    doctor_name: string;
+    specialty: string;
+    experience: string;
+    rating: number;
+    gender: string;
+    imageUrl: string;
+    diseases: string[];
+  }
+
   export interface DoctorExtended{
     id: number;
     name: string;
