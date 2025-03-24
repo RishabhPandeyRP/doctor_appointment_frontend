@@ -5,9 +5,10 @@ import Cookies from "js-cookie"
 
 interface AuthContextInterface{
     username : string | null;
-    login : (username:string , token:string)=>void;
+    login : (username:string , token:string , userid:string)=>void;
     logout: ()=>void;
     token:string | null;
+    userId:string | null
 }
 
 const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
@@ -15,36 +16,44 @@ const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
 export const AuthProvider = ({children} : {children : ReactNode})=>{
     const [username , setUsername] = useState<string | null>(null)
     const [token , setToken] = useState<string | null>(null);
+    const [userId , setUserId] = useState<string | null>(null);
 
     useEffect(()=>{
         const cookieToken = Cookies.get("token")
         const cookieUsername = Cookies.get("username")
+        const cookieUserId = Cookies.get("userid")
 
-        if(cookieToken && cookieUsername ){
+        if(cookieToken && cookieUsername && cookieUserId){
             setToken(cookieToken)
             setUsername(cookieUsername)
+            setUserId(cookieUserId)
         }
         else{
             setToken(null)
             setUsername(null)
+            setUserId(null)
         }
     },[])
     
-    const login = (token:string , username:string)=>{
+    const login = (token:string , username:string , userid:string)=>{
         Cookies.set("token" , token , {expires:1})
         Cookies.set("username" , username , {expires:1})
+        Cookies.set("userid" , userid , {expires:1})
         setUsername(username)
         setToken(token)
+        setUserId(userid)
     }
 
     const logout = ()=>{
         Cookies.remove("token")
         Cookies.remove("username")
+        Cookies.remove("userid")
         setUsername(null)
         setToken(null)
+        setUserId(null)
     }
     return(
-        <AuthContext.Provider value={{username, token , login ,logout}}>
+        <AuthContext.Provider value={{username, token, userId , login ,logout}}>
             {children}
         </AuthContext.Provider>
     )

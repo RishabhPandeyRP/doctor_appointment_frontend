@@ -33,9 +33,9 @@ const Login = () => {
              setMessage(response.data.message)
             console.log(message)
             console.log("login response ", response.data)
-            const {token , username} = response.data;
+            const {token , username , id} = response.data;
 
-            login(token , username)
+            login(token , username , String(id))
 
 
 

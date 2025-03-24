@@ -81,7 +81,7 @@ export default async function DocProfile({ params }: { params: { id?: string } }
                 </div>
             </div>
 
-            <Link href={`/doctors2/${params.id}/bookSlot`}>
+            <Link href={`/doctors2/${id}/bookSlot`}>
                 <button className={styles.profileBtn}>Book an Appointment</button>
             </Link>
 

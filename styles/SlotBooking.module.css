@@ -182,7 +182,7 @@
     color: #3c3c3c94;
     padding: 1.5% 4%;
     border-radius: 5px;
-    cursor: not-allowed;
+    /* cursor: not-allowed; */
     font-size: 14px;
     font-weight: 600;
   }

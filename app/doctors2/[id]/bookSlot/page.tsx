@@ -4,7 +4,7 @@ import doc_list from "@/data/doctors.json"
 import SlotBooking from "@/components/SlotBooking"
 
 const Booking = async ({ params }: { params: { id: string } }) => {
-    const id = params.id
+    const id = params?.id
     console.log("id from the booking page", id)
     return (
         <div className={styles.slotDiv}>
@@ -18,7 +18,7 @@ const Booking = async ({ params }: { params: { id: string } }) => {
             </div>
 
             <div className={styles.slotRight}>
-                <SlotBooking doc_list={doc_list}></SlotBooking>
+                <SlotBooking doc_list={doc_list} id={id}></SlotBooking>
             </div>
         </div>
     )
