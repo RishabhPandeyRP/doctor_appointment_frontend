@@ -5,9 +5,12 @@ import { useState } from "react"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
+import { useAuthContext } from "@/context/AppContext"
+import Link from "next/link"
 
 const Login = () => {
     const router = useRouter()
+    const {login} = useAuthContext()
     const [formData , setFormData] = useState({
         email : "",
         password : ""
@@ -32,8 +35,12 @@ const Login = () => {
             console.log("login response ", response.data)
             const {token , username} = response.data;
 
-            Cookies.set("token",token,{expires:1})
-            Cookies.set("username",username,{expires:1})
+            login(token , username)
+
+
+
+            // Cookies.set("token",token,{expires:1})
+            // Cookies.set("username",username,{expires:1})
 
 
             if(response.status == 200){
@@ -69,7 +76,8 @@ const Login = () => {
 
                 <div>
                     <span className="muted-text">Are you a new member?</span>
-                    <span className="muted-text-2">Sign up here.</span>
+                    <Link href={"/signup"}><span className="muted-text-2">Sign up here.</span></Link>
+                    
                 </div>
 
 

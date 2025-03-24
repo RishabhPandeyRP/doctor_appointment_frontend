@@ -7,6 +7,7 @@ interface FilterParams{
     onFilterReset: ()=>void
     filters : FilterState
 }
+
 const Filter = ({onFilterChange , onFilterReset , filters} : FilterParams)=>{
     return(
         <div className={styles.filterDiv}> 

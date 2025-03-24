@@ -7,11 +7,15 @@ import Link from "next/link"
 import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { useAuthContext } from "@/context/AppContext"
 
 const NavBar = () => {
     const router = useRouter()
     const [mobMenu, setMobMenu] = useState(false)
-    const [user, setUser] = useState<string | undefined>("")
+    // const [user, setUser] = useState<string | undefined>("")
+    const { username, logout } = useAuthContext()
+
+    
 
     useEffect(() => {
         if (mobMenu) {
@@ -25,18 +29,24 @@ const NavBar = () => {
         })
     }, [mobMenu])
 
-    useEffect(() => {
-        const token = Cookies.get("token")
-        const username = Cookies.get("username")
-
-        if (!token) {
-            toast.error("Not loggedin , redirecting to login page")
-            router.push("/login")
-        } else {
-            toast.success("You are logged in")
-            setUser(username)
+    useEffect(()=>{
+        if(!username){
+            toast.error("You are not logged in , please login")
         }
-    }, [])
+    },[username])
+
+    // useEffect(() => {
+    //     const token = Cookies.get("token")
+    //     const username = Cookies.get("username")
+
+    //     if (!token) {
+    //         toast.error("Not loggedin , redirecting to login page")
+    //         router.push("/login")
+    //     } else {
+    //         toast.success("You are logged in")
+    //         setUser(username)
+    //     }
+    // }, [])
 
 
     const toggleMobMenu = () => {
@@ -44,17 +54,20 @@ const NavBar = () => {
     }
 
     const logoutHandler = () => {
-        Cookies.remove("token")
-        Cookies.remove("username")
+        // Cookies.remove("token")
+        // Cookies.remove("username")
+        logout()
         router.push("/login")
     }
 
     return (
         <div className="nav">
             <div className="content">
-                <div className="img-container">
-                    <Image src="/mecareLogo.svg" alt="" className="img" fill />
-                </div>
+                <Link href={"/"}>
+                    <div className="img-container">
+                        <Image src="/mecareLogo.svg" alt="" className="img" fill />
+                    </div>
+                </Link>
 
                 <div className={`nav-links desktop`}>
                     <div className="nav-list">
@@ -69,7 +82,7 @@ const NavBar = () => {
 
 
                     {
-                        user ? <div className="nav-btn">
+                        username ? <div className="nav-btn">
                             {/* <Link href={"/login"}><button className="loginbtn">Logout</button></Link> */}
                             <button className="signupbtn" onClick={logoutHandler}>Logout</button>
 
@@ -95,7 +108,7 @@ const NavBar = () => {
 
 
                         {
-                            user ? <div className="nav-btnMob">
+                            username ? <div className="nav-btnMob">
                                 {/* <Link href={"/login"}><button className="loginbtn">Login</button></Link> */}
                                 <button className="signupbtn" onClick={logoutHandler}>Logout</button>
 

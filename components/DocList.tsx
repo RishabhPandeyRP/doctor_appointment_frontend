@@ -11,7 +11,7 @@ const DocList = ({onDocClick , doc} : DocListParams) => {
     return (
         <div className={styles.docListDiv}>
             {
-                doc.length > 0 ? (
+                doc?.length > 0 ? (
                     <>
                         {
                             doc.map(doctor => (

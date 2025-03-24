@@ -4,15 +4,20 @@ import Filter from "@/components/Filter"
 import DocList from "@/components/DocList"
 import Pagination from "@/components/Pagination"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import doc_list from "@/data/doctors.json"
 import { FilterState } from "@/data/doctors.types"
 import styles from "@/styles/DoctorSearch2.module.css"
+import { useAuthContext } from "@/context/AppContext"
+import axios from "axios"
 
 const Doctors = ()=>{
     const router = useRouter()
-    const [doctor] = useState(doc_list)
-    const [filterDoc , setFilterDoc] = useState(doc_list)
+    const {username , token} = useAuthContext()
+    // const [doctor , setDoctor] = useState(doc_list)
+    const [doctor , setDoctor] = useState([])
+    // const [filterDoc , setFilterDoc] = useState(doc_list)
+    const [filterDoc , setFilterDoc] = useState([])
     const [termSearched , setTermSearched] = useState('')
     const [filter , setFilter] = useState({
         rating : [],
@@ -21,6 +26,35 @@ const Doctors = ()=>{
     })
     const [currPage , setCurrPage] = useState(1)
     const [docPerPage , setDocPerPage] = useState(6)
+
+    const fetchDoctors = async()=>{
+        try {
+            const response = await axios.get("http://localhost:5000/doctors" , {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            })
+            console.log("doctors : " , response.data?.docname)
+            setFilterDoc(Array.isArray(response.data?.docname) ? response.data?.docname : [])
+            setDoctor(Array.isArray(response.data?.docname) ? response.data?.docname : [])
+        } catch (error:any) {
+            console.log("error at doctor fetching" , error.message)
+            setFilterDoc([])
+            setDoctor([])
+        }
+    }
+
+    useEffect(()=>{
+        if(!username){
+            router.push("/login")
+        }
+        else{
+            fetchDoctors()
+            // setFilterDoc()
+        }
+    },[])
+
+    
 
     const addFilter = (search_value:string = termSearched ,filterVal: FilterState = filter )=>{
         let response = [...doctor]
@@ -38,7 +72,7 @@ const Doctors = ()=>{
         }
 
         if(search_value){
-            response = response.filter(item => item.name.toLowerCase().includes(search_value.toLowerCase()) || item.specialization.toLowerCase().includes(search_value.toLowerCase()) || item.diseases.some(disease => disease.toLowerCase().includes(search_value.toLowerCase())))
+            response = response.filter(item => item.doctor_name.toLowerCase().includes(search_value.toLowerCase()) || item.specialty.toLowerCase().includes(search_value.toLowerCase()) || item.diseases.some(disease => disease.toLowerCase().includes(search_value.toLowerCase())))
         }
 
         setFilterDoc(response)
@@ -83,9 +117,9 @@ const Doctors = ()=>{
 
     const lastDoc = currPage * docPerPage
     const firstDoc = lastDoc - docPerPage
-    const currDoc = filterDoc.slice(firstDoc , lastDoc)
+    const currDoc = (filterDoc || []).slice(firstDoc , lastDoc)
 
-    const totalpages = Math.ceil(filterDoc.length / docPerPage)
+    const totalpages = Math.ceil((filterDoc?.length || 0) / docPerPage)
 
 
     return(
@@ -115,7 +149,7 @@ const Doctors = ()=>{
                     <div className={styles.docContentSectionInner}>
                         <Filter filters={filter} onFilterChange={filterChangeHandler} onFilterReset={filterResetHandler}></Filter>
 
-                        <DocList doc={currDoc} onDocClick={docProfile}></DocList>
+                        <DocList doc={currDoc || []} onDocClick={docProfile}></DocList>
                     </div>
 
                     <div>

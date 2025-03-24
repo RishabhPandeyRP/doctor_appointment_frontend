@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "react-hot-toast";
-
+import { AuthProvider } from "@/context/AppContext";
 import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
@@ -19,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={montserrat.variable}>
       <body>
-        <NavBar></NavBar>
-        {children}
-        <Toaster position="top-right"></Toaster>
+        <AuthProvider>
+          <NavBar></NavBar>
+          {children}
+          <Toaster position="top-right"></Toaster>
+        </AuthProvider>
       </body>
     </html>
   );

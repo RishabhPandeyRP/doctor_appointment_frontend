@@ -15,10 +15,10 @@ const DocCard = ({doc , onClick}:DocCardParams)=>{
             </div>
 
             <div className={styles.docInfo}>
-                <h3>{doc.name}</h3>
+                <h3>Dr. {doc.doctor_name}</h3>
 
                 <div className={styles.docDetails}>
-                    <p className={styles.docSpec}>{doc.specialization}</p>
+                    <p className={styles.docSpec}>{doc.specialty}</p>
                     <span className={styles.docExp}>{doc.experience}</span>
                 </div>
 
