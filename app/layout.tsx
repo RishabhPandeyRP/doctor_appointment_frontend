@@ -4,6 +4,7 @@ import NavBar from "@/components/NavBar";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AppContext";
 import { Montserrat } from "next/font/google";
+import Footer from "@/components/Footer";
 
 const montserrat = Montserrat({
   subsets: ["latin"], // Supports Latin characters
@@ -22,6 +23,7 @@ export default function RootLayout({
         <AuthProvider>
           <NavBar></NavBar>
           {children}
+          <Footer></Footer>
           <Toaster position="top-right"></Toaster>
         </AuthProvider>
       </body>

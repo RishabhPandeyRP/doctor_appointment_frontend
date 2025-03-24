@@ -68,12 +68,19 @@
     color: inherit;
 }
 
-/* .nav-btn {
-    width: 29%;
+.nav-btn {
+    width: 25%;
     border: 0px solid black;
     display: flex;
     justify-content: space-between;
-} */
+}
+
+.nav-btn-logout{
+    width: 25%;
+    border: 0px solid black;
+    display: flex;
+    justify-content:end;
+}
 
 .nav-btnMob {
     display: none;
@@ -129,6 +136,11 @@
     display: none;
 }
 
+/* .nav-btn{
+    border: 1px solid red;
+    width: 30%;
+} */
+
 @media screen and (max-width:1024px) {
     .nav-list {
         width: 58%;
@@ -156,8 +168,13 @@
         display: block;
     }
 
+    a{
+        display: block;
+    }
+
     .img-container {
         width: 200px;
+        background-color: 1px solid green;
     }
 
     .mobBtn {

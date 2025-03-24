@@ -1,6 +1,6 @@
 .login-div{
     box-sizing: border-box;
-    border: 0.5px solid rgba(252, 22, 22, 0);
+    border: 0.5px solid rgba(255, 255, 255, 0.081);
     width: 100%;
     height: fit-content;
     background-image: url("../../public/loginBG.svg");
@@ -88,4 +88,20 @@
 .forgot-pass{
     width: fit;
     margin: 0 auto;
+}
+
+@media screen and (max-width:1024px){
+    .login-content{
+        width:60%;
+        gap: 0.6em;
+    }
+}
+
+@media screen and (max-width:768px){
+    .login-content{
+        width:60%;
+        gap: 1.8em;
+        font-size: 14px;
+        font-weight: 500;
+    }
 }

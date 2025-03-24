@@ -68,11 +68,13 @@ const NavBar = () => {
     return (
         <div className="nav">
             <div className="content">
-                <Link href={"/"}>
+                
                     <div className="img-container">
+                    <Link href={"/"}>
                         <Image src="/mecareLogo.svg" alt="" className="img" fill />
+                        </Link>
                     </div>
-                </Link>
+                
 
                 <div className={`nav-links desktop`}>
                     <div className="nav-list">
@@ -87,7 +89,7 @@ const NavBar = () => {
 
 
                     {
-                        username ? <div className="nav-btn">
+                        username ? <div className="nav-btn-logout">
                             {/* <Link href={"/login"}><button className="loginbtn">Logout</button></Link> */}
                             <button className="signupbtn" onClick={logoutHandler}>Logout</button>
 
@@ -101,7 +103,7 @@ const NavBar = () => {
 
                 {mobMenu == true ? <>
                     <div className="overlay" onClick={toggleMobMenu}></div>
-                    <div className={`nav-links-mobile mobile ${mobMenu} ? 'open' : ''`}>
+                    <div className={`nav-links-mobile mobile ${mobMenu ? 'open' : ''}`}>
                         <div className="nav-listMob">
                             <Link href={"/"} className="nav-items"><div>Home</div></Link>
                             <Link href={"/doctors2"} className="nav-items"><div>Appointments</div></Link>
