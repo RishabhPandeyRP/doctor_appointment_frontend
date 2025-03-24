@@ -15,6 +15,9 @@ const NavBar = () => {
     // const [user, setUser] = useState<string | undefined>("")
     const { username, logout } = useAuthContext()
 
+    // if(!username){
+    //     toast.error("You are not logged in, please login")
+    // }
     
 
     useEffect(() => {
@@ -30,7 +33,9 @@ const NavBar = () => {
     }, [mobMenu])
 
     useEffect(()=>{
-        if(!username){
+        if(!username) return
+        const cookieUsername = Cookies.get("username")
+        if(!cookieUsername){
             toast.error("You are not logged in , please login")
         }
     },[username])

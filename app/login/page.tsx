@@ -90,7 +90,7 @@ const Login = () => {
 
 
                     <button className="buttons" id="login-btn" onClick={loginHandler}>
-                        {loading ? "Loging you in..." : "Login"}
+                        {loading ? "Logging you in..." : "Login"}
                     </button>
 
                     <button className="buttons" id="rst-btn">

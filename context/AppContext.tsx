@@ -14,9 +14,9 @@ interface AuthContextInterface{
 const AuthContext = createContext<AuthContextInterface | undefined>(undefined);
 
 export const AuthProvider = ({children} : {children : ReactNode})=>{
-    const [username , setUsername] = useState<string | null>(null)
-    const [token , setToken] = useState<string | null>(null);
-    const [userId , setUserId] = useState<string | null>(null);
+    const [username , setUsername] = useState<string | null>(Cookies.get("username") || null)
+    const [token , setToken] = useState<string | null>(Cookies.get("token") || null);
+    const [userId , setUserId] = useState<string | null>(Cookies.get("userid") || null);
 
     useEffect(()=>{
         const cookieToken = Cookies.get("token")
