@@ -69,6 +69,24 @@ const Login = () => {
 
         
     }
+
+    const resethandler = async(e:React.FormEvent)=>{
+        try {
+            e.preventDefault()
+            const email = formData.email
+
+            const response = await axios.post("http://localhost:5000/auth/request-password-reset" , {email} , {headers:{"Content-Type":"application/json"}})
+
+            if(response.status == 200){
+                toast.success("Resent mail sent , link is only valid for 10 minutes")
+                return
+            }
+
+        } catch (error) {
+            console.log("Some error occured while requesting for password")
+            toast.error("Error while reseting password")
+        }
+    }
     return (
         <div className="login-div">
             <div className="login-content">
@@ -93,13 +111,13 @@ const Login = () => {
                         {loading ? "Logging you in..." : "Login"}
                     </button>
 
-                    <button className="buttons" id="rst-btn">
+                    <button className="buttons" id="rst-btn" >
                         Reset
                     </button>
                 </form>
 
 
-                <div className="forgot-pass">
+                <div className="forgot-pass" onClick={resethandler}>
                     Forgot Password ?
                 </div>
             </div>

@@ -4,9 +4,10 @@ import styles from "@/styles/Searchbar.module.css"
 interface Searchparams{
     termSearched : string
     onSearch : (value : string)=> void
+    paginatedDoc : ()=>void
 }
 
-const SearchBar = ({termSearched , onSearch} : Searchparams)=>{
+const SearchBar = ({termSearched , paginatedDoc , onSearch} : Searchparams)=>{
 
     const searchChangeHandler = (e : React.ChangeEvent<HTMLInputElement>)=>{
         onSearch(e.target.value)
@@ -22,7 +23,7 @@ const SearchBar = ({termSearched , onSearch} : Searchparams)=>{
                   value={termSearched}
                   onChange={searchChangeHandler}
                   className={styles.searchInput} /> 
-                <button className={styles.searchBtn}> 
+                <button className={styles.searchBtn} onClick={paginatedDoc}> 
                     search
                 </button>
             </div>

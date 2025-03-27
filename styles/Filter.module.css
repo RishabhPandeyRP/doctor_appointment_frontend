@@ -64,6 +64,22 @@ margin-bottom: 10px;
     cursor: pointer;
 }
 
+.applyFilter{
+    width: 100%;
+    font-size: large;
+    padding: 3% 0;
+    margin-bottom: 8%;
+    background-color: #1c4a2a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.applyFilter:hover{
+    background-color: #1c4a2af6;
+}
+
 @media screen and (max-width: 1200px){
     .filterDiv{
         margin: 0 auto;

@@ -6,14 +6,19 @@ interface FilterParams{
     onFilterChange : (typeFilter: keyof FilterState , value : string) => void
     onFilterReset: ()=>void
     filters : FilterState
+    printFilters : ()=> void
 }
 
-const Filter = ({onFilterChange , onFilterReset , filters} : FilterParams)=>{
+const Filter = ({onFilterChange , onFilterReset , filters , printFilters} : FilterParams)=>{
     return(
         <div className={styles.filterDiv}> 
             <div className={styles.filterHeaders}>
                 <h2>Filter By:</h2>
                 <button className={styles.rstBtn} onClick={onFilterReset}>Reset</button>
+            </div>
+
+            <div>
+                <button onClick={printFilters} className={styles.applyFilter}>Apply filters</button>
             </div>
 
             {/* rating */}
