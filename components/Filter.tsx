@@ -7,9 +7,10 @@ interface FilterParams{
     onFilterReset: ()=>void
     filters : FilterState
     printFilters : ()=> void
+    isFiltering:boolean
 }
 
-const Filter = ({onFilterChange , onFilterReset , filters , printFilters} : FilterParams)=>{
+const Filter = ({onFilterChange , onFilterReset , filters , printFilters , isFiltering} : FilterParams)=>{
     return(
         <div className={styles.filterDiv}> 
             <div className={styles.filterHeaders}>
@@ -18,7 +19,9 @@ const Filter = ({onFilterChange , onFilterReset , filters , printFilters} : Filt
             </div>
 
             <div>
-                <button onClick={printFilters} className={styles.applyFilter}>Apply filters</button>
+                <button onClick={printFilters} className={styles.applyFilter} disabled={isFiltering}>
+                    {isFiltering ? "Applying..." : "Apply filters"}
+                </button>
             </div>
 
             {/* rating */}

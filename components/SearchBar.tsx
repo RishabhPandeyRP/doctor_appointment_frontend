@@ -5,9 +5,10 @@ interface Searchparams{
     termSearched : string
     onSearch : (value : string)=> void
     paginatedDoc : ()=>void
+    isFiltering:boolean
 }
 
-const SearchBar = ({termSearched , paginatedDoc , onSearch} : Searchparams)=>{
+const SearchBar = ({termSearched , paginatedDoc , onSearch , isFiltering} : Searchparams)=>{
 
     const searchChangeHandler = (e : React.ChangeEvent<HTMLInputElement>)=>{
         onSearch(e.target.value)
@@ -23,8 +24,8 @@ const SearchBar = ({termSearched , paginatedDoc , onSearch} : Searchparams)=>{
                   defaultValue={termSearched}
                   onChange={searchChangeHandler}
                   className={styles.searchInput} /> 
-                <button className={styles.searchBtn} onClick={paginatedDoc}> 
-                    search
+                <button className={styles.searchBtn} onClick={paginatedDoc} disabled={isFiltering}> 
+                    {isFiltering ? "searching..." : "search"}
                 </button>
             </div>
         </div>

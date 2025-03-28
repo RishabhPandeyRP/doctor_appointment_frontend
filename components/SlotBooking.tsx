@@ -1,13 +1,17 @@
 "use client"
 import { DoctorExtended } from "@/data/doctors.types"
 import styles from "@/styles/SlotBooking.module.css"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo } from "react"
 import axios from "axios"
 import { useAuthContext } from "@/context/AppContext"
+import toast from "react-hot-toast"
+import Loader from "./Loader"
+import Image from "next/image"
 
 interface SlotBooking {
-    doc_list: DoctorExtended[],
-    id: string
+    doc_list: DoctorExtended[];
+    id: string;
+    location: string
 }
 
 interface DateInformation {
@@ -20,17 +24,18 @@ interface DateInformation {
 }
 
 interface SlotInfo {
-    slotId:number;
+    slotId: number;
     id: number;
     date: string;
     slot: string;
     is_booked: boolean;
     start_time: string;
-    end_time:string;
-    is_available:boolean;
+    end_time: string;
+    is_available: boolean;
+    newdate: string
 }
 
-const SlotBooking = ({ doc_list, id }: SlotBooking) => {
+const SlotBooking = ({ id, location }: SlotBooking) => {
     const { token, userId } = useAuthContext()
     const [slotType, setSlotType] = useState('online')
     const [selDate, setSelDate] = useState<DateInformation | null>(null)
@@ -39,6 +44,8 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
     const [currentMonth, setCurrMonth] = useState<Date>(new Date())
     const [availSlots, setAvailSlots] = useState<SlotInfo[]>([])
     const datesWrapperRef = useRef<HTMLDivElement>(null)
+    const [isFetchingSlots, setFetchingSlots] = useState<boolean>(false)
+    const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
 
     const slotChangeHandler = () => {
         if (slotType === 'online') {
@@ -48,49 +55,16 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
         setSlotType('online')
     }
 
-    const morning = [
-        { id: 101, slot: '9:00 AM', is_booked: false },
-        { id: 102, slot: '9:30 AM', is_booked: false },
-        { id: 103, slot: '10:00 AM', is_booked: false },
-        { id: 104, slot: '10:30 AM', is_booked: false },
-        { id: 105, slot: '11:00 AM', is_booked: false },
-        { id: 106, slot: '11:30 AM', is_booked: false }
-    ];
-
-    const noon = [
-        { id: 201, slot: '12:00 PM', is_booked: false },
-        { id: 202, slot: '12:30 PM', is_booked: false },
-        { id: 203, slot: '1:00 PM', is_booked: false }
-    ];
-
-    useEffect(() => {
-        if (selDate) {
-            const formattedDate = selDate.completeDate.toISOString().split('T')[0];
-
-            // Combine morning and noon slots with the selected date
-            const updatedSlots = [...morning, ...noon].map(slot => ({
-                ...slot,
-                date: formattedDate
-            }));
-
-            setAvailSlots(updatedSlots as SlotInfo[]);
-            setSelSlot(null); // Reset selected slot when date changes
-            console.log("available slots : ", availSlots)
-        }
-    }, [selDate]);
-
-
-
-
     const dateGenerate = () => {
 
         const today = new Date();
+        today.setMonth(currentMonth.getMonth())
         const dateArr = [];
 
         let i = 0;
 
         while (i < 15) {
-            let date = new Date(today);
+            const date = new Date(today);
             date.setDate(i + today.getDate());
             dateArr.push({
                 day: date.toLocaleDateString('en-US', { weekday: 'short' }),
@@ -104,46 +78,61 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
 
         return dateArr;
     };
+    const dates = useMemo(() => dateGenerate(), [currentMonth])
 
-    let dates = dateGenerate()
 
     useEffect(() => {
         setSelDate(dates[0])
-    }, [])
+        dateSelecthandler(dates[0])
+    }, [dates])
+
+
 
     const dateSelecthandler = async (date: DateInformation) => {
         console.log("date clicked", date)
         setSelDate(date)
         setSelSlot(null)
         try {
-            const response = await axios.get(`http://localhost:5000/slots/${id}/${date.stringFormat}`, {
+            setFetchingSlots(true)
+            const response = await axios.get(`${API_BASE_URL}/slots/${id}/${date.stringFormat}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
             console.log("date data from response ", response.data)
             setAvailSlots(response.data)
-        } catch (error) {
-            console.log("some error occured while fetching slots data")
+            setFetchingSlots(false)
+        } catch (error: unknown) {
+
+            if (error instanceof Error) {
+                console.log("some error occured while fetching slots data", error.message)
+            } else {
+                console.log("Unknown Error occured while fetching slots data");
+
+            }
+            setFetchingSlots(false)
         }
     }
+
 
     const getAMPM = (time: string) => {
         const hour = parseInt(time?.split(":")[0], 10)
         return hour < 12 ? "AM" : "PM"
     }
 
-    console.log("availSlots ", availSlots)
+    // console.log("availSlots ", availSlots)
 
-    let displayMorningSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "AM")
-    let displayNoonSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "PM")
+    const displayMorningSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "AM")
+    const displayNoonSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "PM")
+
 
     const slotSelecthandler = (slotId: number) => {
         const selectedSlotArr = availSlots.find(slot => slot.id === slotId)
         if (selSlot == null) {
 
             if (selectedSlotArr && selectedSlotArr.is_available) {
-                const date = new Date(selectedSlotArr.date).toISOString().slice(0, 10)
+
+                const date = new Date(selectedSlotArr.newdate).toISOString().slice(0, 10)
                 setSelSlot({ start_time: selectedSlotArr.start_time, slotId: selectedSlotArr.id, date: date, end_time: selectedSlotArr.end_time } as SlotInfo)
 
                 const updatedSlots = availSlots.map(slot => (
@@ -175,6 +164,7 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
                 alert("plase sel date and slot")
                 return
             }
+            const date = new Date(selSlot.date).toISOString()
 
             const payload = {
                 "doctor_id": Number(id),
@@ -193,21 +183,37 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
 
             console.log("this is payload ", payload)
 
-            const response = await axios.post("http://localhost:5000/appointment/book", payload, { headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` } })
+            const response = await axios.post(`${API_BASE_URL}/appointment/book`, payload, { headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` } })
 
             console.log("response after booking is done ", response.data)
 
+            if (response.status == 200) {
+                toast.success("Appointment booked")
+                setLoading(false)
+                return
+            }
 
-
-            alert(`appointment request sent ${selSlot.start_time} ${selSlot.slotId} ${selSlot.date}`)
-
+            // alert(`appointment request sent ${selSlot.start_time} ${selSlot.slotId} ${selSlot.date}`)
+            toast.error("Some error occured while booking slot")
             setLoading(false)
-        } catch (error: any) {
-            console.log("error while booking the slot : ", error.message)
+        } catch (error: unknown) {
+
+
+
+            if (error instanceof Error) {
+                console.log("error while booking the slot : ", error.message)
+                toast.error("Some error occured while booking slot")
+
+            } else {
+                console.log("Unknown Error occured while booking the slot");
+                toast.error("Some error occured while booking slot")
+            }
+
             setLoading(false)
         }
 
     }
+
 
     const monthNavigate = (direction: number) => {
         const updateMonth = new Date(currentMonth)
@@ -220,7 +226,7 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
         }
     }
 
-
+    console.log("available slots are : ", availSlots)
 
     return (
         <div className={styles.slotDiv}>
@@ -242,7 +248,7 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
                 </div>
 
                 {slotType == 'offline' && <div className={styles.slotLocation}>
-                    location
+                    {location}
                 </div>}
 
                 <div className={styles.slotMonth}>
@@ -268,16 +274,20 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
                 <div className={styles.slotCardSuperWrapper}>
 
                     <div className={styles.slotCardWrapper}>
-                        <div>
+                        <div className={styles.slotIconWrapper}>
+                            <div className={styles.morningImg}>
+                                <Image src={"/sun.svg"} alt="sun image" fill></Image>
+                            </div>
                             <div className={styles.morning}>
                                 Morning
                             </div>
-                            <div>
 
-                            </div>
                         </div>
 
-                        <div className={styles.slotCardsBox}>
+                        {isFetchingSlots ? <div className={styles.Loader}>
+                            <Loader></Loader>
+
+                        </div> : <div className={styles.slotCardsBox}>
                             {
                                 displayMorningSlots.length != 0 ? displayMorningSlots.map((slot, index) => (
                                     <div key={index} className={!slot.is_available ? styles.activeSlotCard : styles.slotCards}
@@ -289,20 +299,24 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
                                 )) : <div>No slots available</div>
                             }
 
-                        </div>
+                        </div>}
                     </div>
 
                     <div className={styles.slotCardWrapper}>
-                        <div>
+                        <div className={styles.slotIconWrapper}>
+                            <div className={styles.morningImg}>
+                                <Image src={"/sunset.svg"} alt="sun image" fill></Image>
+                            </div>
                             <div className={styles.noon}>
                                 Afternoon
                             </div>
-                            <div>
 
-                            </div>
                         </div>
 
-                        <div className={styles.slotCardsBox}>
+                        {isFetchingSlots ? <div className={styles.Loader}>
+                            <Loader></Loader>
+
+                        </div> : <div className={styles.slotCardsBox}>
                             {
                                 displayNoonSlots.length != 0 ? displayNoonSlots.map((slot, index) => (
                                     <div key={index} className={!slot.is_available ? styles.activeSlotCard : styles.slotCards}
@@ -312,7 +326,7 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
                                     </div>
                                 )) : <div>No slots available</div>
                             }
-                        </div>
+                        </div>}
 
 
                     </div>

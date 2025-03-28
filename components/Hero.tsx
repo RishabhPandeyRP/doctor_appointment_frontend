@@ -1,6 +1,6 @@
 import React from "react";
 import "./Hero.css"
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 
 const Hero = () => {

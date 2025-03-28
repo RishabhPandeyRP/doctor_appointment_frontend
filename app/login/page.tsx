@@ -3,12 +3,13 @@ import "./login.css"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import axios from "axios"
-import Cookies from "js-cookie"
+// import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import { useAuthContext } from "@/context/AppContext"
 import Link from "next/link"
 
 const Login = () => {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     const router = useRouter()
     const {login} = useAuthContext()
     const [formData , setFormData] = useState({
@@ -17,6 +18,7 @@ const Login = () => {
     })
     const [loading , setLoading] = useState(false)
     const [message , setMessage] = useState("")
+    const [isForgot , setIsForgot] = useState<boolean>(false)
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFormData({...formData , [e.target.name]:e.target.value})
@@ -29,7 +31,7 @@ const Login = () => {
             setLoading(true)
             setMessage("")
             console.log("this is form data" , formData)
-            const response = await axios.post("http://localhost:5000/auth/login" , formData , {headers:{"Content-Type":"application/json"}})
+            const response = await axios.post(`${API_BASE_URL}/auth/login` , formData , {headers:{"Content-Type":"application/json"}})
              setMessage(response.data.message)
             console.log(message)
             console.log("login response ", response.data)
@@ -61,32 +63,52 @@ const Login = () => {
             toast.error("Some error occured")
             setLoading(false)
             
-        } catch (error:any) {
-            console.log("error :login" , error.message)
-            toast.error("Error while logging up")
+        } catch (error:unknown) {
+            if (error instanceof Error) {
+                console.log("Error during login:", error.message);
+                toast.error("Error while logging in");
+            } else {
+                console.log("Unknown error occurred during login");
+                toast.error("An unexpected error occurred");
+            }
             setLoading(false)
         }
 
         
     }
 
-    const resethandler = async(e:React.FormEvent)=>{
+    const forgotHandler = async(e:React.FormEvent)=>{
+        if(isForgot) return
         try {
+            setIsForgot(true)
             e.preventDefault()
             const email = formData.email
 
-            const response = await axios.post("http://localhost:5000/auth/request-password-reset" , {email} , {headers:{"Content-Type":"application/json"}})
+            const response = await axios.post(`${API_BASE_URL}/auth/request-password-reset` , {email} , {headers:{"Content-Type":"application/json"}})
 
             if(response.status == 200){
                 toast.success("Resent mail sent , link is only valid for 10 minutes")
+                setIsForgot(false)
                 return
             }
-
-        } catch (error) {
-            console.log("Some error occured while requesting for password")
-            toast.error("Error while reseting password")
+            setIsForgot(false)
+        } catch (error:unknown) {
+            if (error instanceof Error) {
+                console.log("Error during requesting reset password:", error.message);
+                toast.error("Error while reset password");
+            } else {
+                console.log("Unknown error occurred during reset password");
+                toast.error("An unexpected error occurred");
+            }
+            setIsForgot(false)
         }
     }
+
+    const resetHandler = (e:React.FormEvent)=>{
+        e.preventDefault()
+        setFormData({email:"" , password:""})
+    }
+
     return (
         <div className="login-div">
             <div className="login-content">
@@ -107,18 +129,18 @@ const Login = () => {
                     <input type="password" name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" />
 
 
-                    <button className="buttons" id="login-btn" onClick={loginHandler}>
+                    <button className="buttons" id="login-btn" onClick={loginHandler} disabled={loading}>
                         {loading ? "Logging you in..." : "Login"}
                     </button>
 
-                    <button className="buttons" id="rst-btn" >
+                    <button className="buttons" id="rst-btn" onClick={resetHandler}>
                         Reset
                     </button>
                 </form>
 
 
-                <div className="forgot-pass" onClick={resethandler}>
-                    Forgot Password ?
+                <div className="forgot-pass" onClick={forgotHandler}>
+                    {isForgot ? "please wait..." : "Forgot Password" }
                 </div>
             </div>
         </div>

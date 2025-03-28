@@ -1,20 +1,20 @@
 import React from "react"
 import styles from "@/styles/DocCard.module.css"
-import { Doctor } from "@/data/doctors.types"
+// import { Doctor } from "@/data/doctors.types"
 import { DoctorBackend } from "@/data/doctors.types"
 import Image from "next/image"
 
-interface DocCardParams{
+interface DocCardParams {
     doc: DoctorBackend
-    onClick : (docId:number)=>void
+    onClick: (docId: number) => void
 }
-const DocCard = ({doc , onClick}:DocCardParams)=>{
-    return(
+const DocCard = ({ doc, onClick }: DocCardParams) => {
+    return (
         <div className={styles.docCardDiv}
-            onClick={()=>onClick(doc.id)}>
+            onClick={() => onClick(doc.id)}>
             <div className={styles.docImgContainer}>
                 <div className={styles.docImg}>
-                <Image src={doc.photo_url || "/WhatsApp (1).svg"} alt="profile image" fill></Image>
+                    <Image src={doc.photo_url || "/WhatsApp (1).svg"} alt="profile image" fill></Image>
                 </div>
             </div>
 
@@ -37,7 +37,7 @@ const DocCard = ({doc , onClick}:DocCardParams)=>{
                 <div className={styles.docDisease}>
                     {doc.diseases.join(',')}
                 </div>
-                <button className={styles.docBookBtn} onClick={(e)=>{
+                <button className={styles.docBookBtn} onClick={(e) => {
                     e.stopPropagation();
                     onClick(doc.id)
                 }}>

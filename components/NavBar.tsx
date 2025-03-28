@@ -13,6 +13,7 @@ import axios from "axios"
 const NavBar = () => {
     const router = useRouter()
     const [mobMenu, setMobMenu] = useState(false)
+    const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     // const [user, setUser] = useState<string | undefined>("")
     const { username, logout } = useAuthContext()
 
@@ -35,14 +36,24 @@ const NavBar = () => {
 
     const checkLogin = async(token:string)=>{
         try {
-            const response = await axios.get(`http://localhost:5000/auth/verifyToken/${token}`)
+            const response = await axios.get(`${API_BASE_URL}/auth/verifyToken/${token}`)
             if(response.status == 200){
                 toast.success(`Welcome ${response.data.data.email}`)
                 return
             }
 
-        } catch (error) {
-            toast.error("Your session expired, please login again")
+        } catch (error:unknown) {
+            
+            
+
+            if (error instanceof Error) {
+                console.log("Error in navbar" , error.message)
+                toast.error("Your session expired, please login again")
+            
+            } else {
+                console.log("Unknown Error in navbar");
+                toast.error("Unknown Error in navbar");
+            }
         }
     }
 

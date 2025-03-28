@@ -75,17 +75,19 @@
 }
 
 #login-btn{
+    cursor: pointer;
     background-color: #1c4a2a;
     color: white;
 }
 
 #rst-btn{
-    
+    cursor: pointer;
     background-color: #c6b09a;
     color: white;
 }
 
 .forgot-pass{
+    cursor: pointer;
     width: fit;
     margin: 0 auto;
 }

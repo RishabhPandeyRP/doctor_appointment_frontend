@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import "./page.css"
 import Hero from "@/components/Hero";
 

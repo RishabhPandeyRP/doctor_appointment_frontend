@@ -202,6 +202,28 @@
     transform: translateY(-3%);
   }
 
+  .Loader{
+    border: 0px solid red;
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: #8C8C8C;
+  }
+
+  .slotIconWrapper{
+    display: flex;
+    gap: 2%;
+  }
+
+  .morningImg{
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+
   @media (max-width: 768px) {
     .slotForm {
       padding: 5%;

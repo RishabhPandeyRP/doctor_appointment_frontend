@@ -7,6 +7,7 @@ import { useRouter, useParams } from "next/navigation";
 
 const ResetPassword = () => {
     const router = useRouter();
+    const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     const { token } = useParams(); // Extract token from URL
 
     const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const ResetPassword = () => {
 
         try {
             setLoading(true);
-            const response = await axios.post("http://localhost:5000/auth/reset-password", {
+            const response = await axios.post(`${API_BASE_URL}/auth/reset-password`, {
                 token,
                 password: formData.password,
             });
@@ -41,9 +42,17 @@ const ResetPassword = () => {
 
             
 
-        } catch (error: any) {
-            console.error("Reset password error:", error);
-            toast.error(error.message || "Error resetting password");
+        } catch (error: unknown) {
+            
+            if (error instanceof Error) {
+                console.error("Reset password error:", error.message);
+                toast.error(error.message || "Error resetting password");
+            
+            } else {
+                console.log("Unknown error occurred while pagination");
+                toast.error("Unknown error occurred");
+            }
+            
         } finally {
             setLoading(false);
         }

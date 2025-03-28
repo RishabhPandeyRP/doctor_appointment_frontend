@@ -3,33 +3,35 @@ import React from "react"
 // import doc_list from "@/data/doctors.json"
 import { notFound } from "next/navigation"
 // import { Doctor } from "@/data/doctors.types"
-import { redirect } from "next/navigation"
+// import { redirect } from "next/navigation"
 import Link from "next/link"
 import axios from "axios"
 import { cookies } from "next/headers"
+import Image from "next/image"
 
 
-export default async function DocProfile({ params }: { params: { id?: string } }) {
+export default async function DocProfile({ params }: { params: Promise<{ id?: string }> }) {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     const Cookie = await cookies()
     const token = Cookie.get("token")?.value;
 
-    const id = params?.id
+    const id = (await params)?.id
 
-    if(!token || !id){
+    if (!token || !id) {
         return notFound()
     }
 
-    const response  = await axios.get(`http://localhost:5000/doctors/${id}`, {
-        headers:{
-            Authorization:`Bearer ${token}`
+    const response = await axios.get(`${API_BASE_URL}/doctors/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
         }
     })
 
-    console.log("response from profile is " , response.data.docname)
+    console.log("response from profile is ", response.data.docname)
 
-    const bookingNavigate = () => {
-        redirect(`/doctors2/${id}/bookSlot`)
-    }
+    // const bookingNavigate = () => {
+    //     redirect(`/doctors2/${id}/bookSlot`)
+    // }
 
     return (
         <div className={styles.profileDiv}>
@@ -45,7 +47,7 @@ export default async function DocProfile({ params }: { params: { id?: string } }
             <div className={styles.profileContent}>
                 <div className={styles.profileContentLeft}>
                     <div className={styles.profileImg}>
-
+                        <Image src={response.data.docname.photo_url || "/WhatsApp (1).svg"} alt="profile image" fill></Image>
                     </div>
                     <div className={styles.profileRatingBox}>
                         <div className={styles.profileRatingTitle}>Rating</div>
@@ -71,11 +73,11 @@ export default async function DocProfile({ params }: { params: { id?: string } }
                             <div>{response.data.docname.experience}</div>
                             <div>{response.data.docname.gender}</div>
                             <div className={styles.profileDiseases}>
-                                {response.data.docname.diseases.map((disease:string , index:number) => (
+                                {response.data.docname.diseases.map((disease: string, index: number) => (
                                     <div className={styles.profileDiseasesCard} key={index}>{disease}</div>
                                 ))}
                             </div>
-                            <div>{response.data.docname.doctor_name} is a highly skilled {response.data.docname.specialty} with {response.data.docname.experience}  of experience. They specialize in treating {response.data.docname.diseases.map((disease:string) => disease)}</div>
+                            <div>{response.data.docname.doctor_name} is a highly skilled {response.data.docname.specialty} with {response.data.docname.experience}  of experience. They specialize in treating {response.data.docname.diseases.map((disease: string) => disease)}</div>
                         </div>
                     </div>
                 </div>

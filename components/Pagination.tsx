@@ -11,8 +11,8 @@ const Pagination: React.FC<PaginationProps> = ({ current_page, total_pages, onPa
 
     const get_numbers_of_pages = () => {
         
-        let maxPageNumber = 5;
-        let pagenumbers = [];
+        const maxPageNumber = 5;
+        const pagenumbers = [];
 
         if (total_pages <= maxPageNumber) {
 

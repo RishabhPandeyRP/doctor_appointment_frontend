@@ -12,6 +12,7 @@ const SignUp = () => {
         email : "",
         password : ""
     })
+    const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     const [loading , setLoading] = useState(false)
     const [message , setMessage] = useState("")
 
@@ -26,7 +27,7 @@ const SignUp = () => {
             setLoading(true)
             setMessage("")
             console.log("this is form data" , formData)
-            const response = await axios.post("http://localhost:5000/auth/register" , formData , {headers:{"Content-Type":"application/json"}})
+            const response = await axios.post(`${API_BASE_URL}/auth/register` , formData , {headers:{"Content-Type":"application/json"}})
             setMessage(response.data.message)
 
             if(response.status == 200){
@@ -49,12 +50,27 @@ const SignUp = () => {
 
             toast.error("Some error occured")
             setLoading(false)
-        } catch (error) {
-            toast.error("Error while signing up")
+        } catch (error:unknown) {
+            
+            
+
+            if (error instanceof Error) {
+                console.error("Error while signing up", error.message);
+                toast.error("Error while signing up")
+            
+            } else {
+                console.log("Error while signing up");
+                toast.error("Unknown error occurred while signing up");
+            }
             setLoading(false)
         }
 
         
+    }
+
+    const resetHandler = (e:React.FormEvent)=>{
+        e.preventDefault()
+        setFormData({name:"" , email:"" , password:""})
     }
 
     return (
@@ -80,19 +96,19 @@ const SignUp = () => {
                     <input type="password" name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" />
 
 
-                    <button className="buttons" id="login-btn" onClick={submitHandler}>
+                    <button className="buttons" id="login-btn" onClick={submitHandler} disabled={loading}>
                         {loading ? "Submitting..." : "Submit"}
                     </button>
 
-                    <button className="buttons" id="rst-btn">
+                    <button className="buttons" id="rst-btn" onClick={resetHandler}>
                         Reset
                     </button>
                 </form>
 
 
-                <div className="forgot-pass">
+                {/* <div className="forgot-pass">
                     Forgot Password ?
-                </div>
+                </div> */}
             </div>
         </div>
     )
