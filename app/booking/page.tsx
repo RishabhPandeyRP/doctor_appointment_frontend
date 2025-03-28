@@ -1,8 +1,8 @@
-import AppointmentBooking from "@/components/AppointmentBooking"
+// import AppointmentBooking from "@/components/AppointmentBooking"
 const Booking = ()=>{
     return(
         <div>
-            <AppointmentBooking></AppointmentBooking>
+            {/* <AppointmentBooking></AppointmentBooking> */}
         </div>
     )
 }

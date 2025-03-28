@@ -45,6 +45,8 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
     const [availSlots, setAvailSlots] = useState<SlotInfo[]>([])
     const datesWrapperRef = useRef<HTMLDivElement>(null)
     const [isFetchingSlots, setFetchingSlots] = useState<boolean>(false)
+    // const [morningActive, setMorningActive] = useState<number>(0)
+    // const [noonActive, setNoonActive] = useState<number>(0)
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
 
     const slotChangeHandler = () => {
@@ -84,6 +86,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
     useEffect(() => {
         setSelDate(dates[0])
         dateSelecthandler(dates[0])
+
     }, [dates])
 
 
@@ -126,6 +129,12 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
     const displayNoonSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "PM")
 
 
+    const morningActive = displayMorningSlots.filter(slot => slot.is_available).length;
+    const noonActive = displayNoonSlots.filter(slot => slot.is_available).length;
+
+
+
+
     const slotSelecthandler = (slotId: number) => {
         const selectedSlotArr = availSlots.find(slot => slot.id === slotId)
         if (selSlot == null) {
@@ -164,7 +173,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                 alert("plase sel date and slot")
                 return
             }
-            const date = new Date(selSlot.date).toISOString()
+            // const date = new Date(selSlot.date).toISOString()
 
             const payload = {
                 "doctor_id": Number(id),
@@ -252,11 +261,15 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                 </div>}
 
                 <div className={styles.slotMonth}>
-                    <div className={styles.slotLeft} onClick={() => monthNavigate(-1)}></div>
+                    <div className={styles.slotLeft} onClick={() => monthNavigate(-1)}>
+                        <Image src={"/left-chevron.png"} alt="" fill/>
+                    </div>
 
                     <div>{currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
 
-                    <div className={styles.slotLeft} onClick={() => monthNavigate(1)}></div>
+                    <div className={styles.slotLeft} onClick={() => monthNavigate(1)}>
+                    <Image src={"/right-chevron.png"} alt="" fill/>
+                    </div>
                 </div>
 
                 <div className={styles.datesWrapper} ref={datesWrapperRef}>
@@ -274,14 +287,18 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                 <div className={styles.slotCardSuperWrapper}>
 
                     <div className={styles.slotCardWrapper}>
-                        <div className={styles.slotIconWrapper}>
-                            <div className={styles.morningImg}>
-                                <Image src={"/sun.svg"} alt="sun image" fill></Image>
+                        <div className={styles.slotIconHeader}>
+                            <div className={styles.slotIconWrapper}>
+                                <div className={styles.morningImg}>
+                                    <Image src={"/sun.svg"} alt="sun image" fill></Image>
+                                </div>
+                                <div className={styles.morning}>
+                                    Morning
+                                </div>
                             </div>
-                            <div className={styles.morning}>
-                                Morning
+                            <div>
+                                {`${morningActive} ${morningActive == 1 ? "Slot" : "Slots"}`}
                             </div>
-
                         </div>
 
                         {isFetchingSlots ? <div className={styles.Loader}>
@@ -303,14 +320,18 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                     </div>
 
                     <div className={styles.slotCardWrapper}>
-                        <div className={styles.slotIconWrapper}>
-                            <div className={styles.morningImg}>
-                                <Image src={"/sunset.svg"} alt="sun image" fill></Image>
+                        <div className={styles.slotIconHeader}>
+                            <div className={styles.slotIconWrapper}>
+                                <div className={styles.morningImg}>
+                                    <Image src={"/sunset.svg"} alt="sun image" fill></Image>
+                                </div>
+                                <div className={styles.noon}>
+                                    Afternoon
+                                </div>
                             </div>
-                            <div className={styles.noon}>
-                                Afternoon
+                            <div>
+                                {`${noonActive} ${noonActive == 1 ? "Slot" : "Slots"}`}
                             </div>
-
                         </div>
 
                         {isFetchingSlots ? <div className={styles.Loader}>

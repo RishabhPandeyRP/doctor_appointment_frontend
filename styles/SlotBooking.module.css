@@ -70,6 +70,9 @@
     border: 1px solid rgba(0, 0, 0, 0.317);
     border-radius: 5px;
     padding: 1.5% 2%;
+    text-align: center;
+    font-size: clamp(15px, 3vw, 17px);
+    font-weight: 500;
 }
 
 .slotMonth{
@@ -87,7 +90,10 @@
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    position: relative;
+    cursor: pointer;
 }
+
 
 .datesWrapper{
     display: flex;
@@ -215,13 +221,23 @@
 
   .slotIconWrapper{
     display: flex;
-    gap: 2%;
+    border: 0px solid red;
+    width: 25%;
+    gap: 6%;
   }
 
   .morningImg{
     position: relative;
     width: 20px;
     height: 20px;
+  }
+
+  .slotIconHeader{
+    border: 0px solid red;
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(15px, 3vw, 17px);
+    font-weight: 700;
   }
 
   @media (max-width: 768px) {
