@@ -20,17 +20,21 @@ interface DateInformation {
 }
 
 interface SlotInfo {
+    slotId:number;
     id: number;
     date: string;
     slot: string;
-    is_booked: boolean
+    is_booked: boolean;
+    start_time: string;
+    end_time:string;
+    is_available:boolean;
 }
 
 const SlotBooking = ({ doc_list, id }: SlotBooking) => {
     const { token, userId } = useAuthContext()
     const [slotType, setSlotType] = useState('online')
     const [selDate, setSelDate] = useState<DateInformation | null>(null)
-    const [selSlot, setSelSlot] = useState<string | null>(null)
+    const [selSlot, setSelSlot] = useState<SlotInfo | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [currentMonth, setCurrMonth] = useState<Date>(new Date())
     const [availSlots, setAvailSlots] = useState<SlotInfo[]>([])
@@ -69,7 +73,7 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
                 date: formattedDate
             }));
 
-            setAvailSlots(updatedSlots);
+            setAvailSlots(updatedSlots as SlotInfo[]);
             setSelSlot(null); // Reset selected slot when date changes
             console.log("available slots : ", availSlots)
         }
@@ -140,7 +144,7 @@ const SlotBooking = ({ doc_list, id }: SlotBooking) => {
 
             if (selectedSlotArr && selectedSlotArr.is_available) {
                 const date = new Date(selectedSlotArr.date).toISOString().slice(0, 10)
-                setSelSlot({ start_time: selectedSlotArr.start_time, slotId: selectedSlotArr.id, date: date, end_time: selectedSlotArr.end_time })
+                setSelSlot({ start_time: selectedSlotArr.start_time, slotId: selectedSlotArr.id, date: date, end_time: selectedSlotArr.end_time } as SlotInfo)
 
                 const updatedSlots = availSlots.map(slot => (
                     slot.id === slotId ? { ...slot, is_available: false } : slot

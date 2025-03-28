@@ -8,6 +8,7 @@ import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { useAuthContext } from "@/context/AppContext"
+import axios from "axios"
 
 const NavBar = () => {
     const router = useRouter()
@@ -32,12 +33,33 @@ const NavBar = () => {
         })
     }, [mobMenu])
 
-    useEffect(()=>{
-        if(!username) return
-        const cookieUsername = Cookies.get("username")
-        if(!cookieUsername){
-            toast.error("You are not logged in , please login")
+    const checkLogin = async(token:string)=>{
+        try {
+            const response = await axios.get(`http://localhost:5000/auth/verifyToken/${token}`)
+            if(response.status == 200){
+                toast.success(`Welcome ${response.data.data.email}`)
+                return
+            }
+
+        } catch (error) {
+            toast.error("Your session expired, please login again")
         }
+    }
+
+    useEffect(()=>{
+        if(!username){
+            toast.error("Please login in")
+            return
+        }
+        const cookieToken = Cookies.get("token")
+        if(!cookieToken){
+            toast.error("Please login in")
+            return
+        }
+        else{
+            checkLogin(cookieToken)
+        }
+
     },[username])
 
     // useEffect(() => {

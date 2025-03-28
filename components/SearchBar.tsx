@@ -20,7 +20,7 @@ const SearchBar = ({termSearched , paginatedDoc , onSearch} : Searchparams)=>{
                  name=""
                   id=""
                   placeholder="Search by doctor name , disease , specialization"
-                  value={termSearched}
+                  defaultValue={termSearched}
                   onChange={searchChangeHandler}
                   className={styles.searchInput} /> 
                 <button className={styles.searchBtn} onClick={paginatedDoc}> 

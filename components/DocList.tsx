@@ -27,7 +27,7 @@ const DocList = ({onDocClick , doc} : DocListParams) => {
                 ):(
                     <div className={styles.noresult}>
                         <p>No doctors found</p>
-                        <p>Try adjusting your filters</p>
+                        <p>Try adjusting your filters or search category</p>
                     </div>
                 )
             }

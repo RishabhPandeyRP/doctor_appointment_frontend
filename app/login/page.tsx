@@ -45,7 +45,7 @@ const Login = () => {
 
             if(response.status == 200){
                 
-                toast.success(message)
+                // toast.success(message)
                 setLoading(false)
                 router.push("/")
                 return
@@ -53,7 +53,7 @@ const Login = () => {
 
             if (response.status == 500){
                 
-                toast.error(message)
+                toast.error("Error while logged you in")
                 setLoading(false)
                 return
             }

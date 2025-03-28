@@ -144,7 +144,7 @@ const Doctors = () => {
 
     const filterResetHandler = () => {
         // setTermSearched('')
-        termSearchedRef.current = ''
+        // termSearchedRef.current = ''
         setFilter({
             rating: [],
             experience: [],

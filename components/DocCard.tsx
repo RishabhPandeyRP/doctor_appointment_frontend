@@ -2,6 +2,7 @@ import React from "react"
 import styles from "@/styles/DocCard.module.css"
 import { Doctor } from "@/data/doctors.types"
 import { DoctorBackend } from "@/data/doctors.types"
+import Image from "next/image"
 
 interface DocCardParams{
     doc: DoctorBackend
@@ -12,7 +13,9 @@ const DocCard = ({doc , onClick}:DocCardParams)=>{
         <div className={styles.docCardDiv}
             onClick={()=>onClick(doc.id)}>
             <div className={styles.docImgContainer}>
-                <div className={styles.docImg}></div>
+                <div className={styles.docImg}>
+                <Image src={doc.photo_url || "/WhatsApp (1).svg"} alt="profile image" fill></Image>
+                </div>
             </div>
 
             <div className={styles.docInfo}>
