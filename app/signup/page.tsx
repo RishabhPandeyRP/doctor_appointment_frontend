@@ -20,12 +20,27 @@ const SignUp = () => {
         setFormData({...formData , [e.target.name]:e.target.value})
     }
 
+    const checkValidMail = (mail:string)=>{
+        const provider = mail.split("@")[1].split(".")[0]
+        if(provider == "gmail" || provider == "tothenew") return true
+        return false
+    }
+
+    
+
     const submitHandler = async (e:React.FormEvent)=>{
         e.preventDefault()
 
         try {
             setLoading(true)
             setMessage("")
+
+            if(!checkValidMail(formData.email)){
+                toast.error("Only gmail and tothenew domains applicable")
+                setLoading(false)
+                return
+            }
+
             console.log("this is form data" , formData)
             const response = await axios.post(`${API_BASE_URL}/auth/register` , formData , {headers:{"Content-Type":"application/json"}})
             setMessage(response.data.message)
@@ -73,6 +88,11 @@ const SignUp = () => {
         setFormData({name:"" , email:"" , password:""})
     }
 
+    const handleGoogleLogin = (e:React.FormEvent) => {
+        e.preventDefault()
+        window.location.href = `${API_BASE_URL}/auth/google`; 
+      };
+
     return (
         <div className="login-div">
             <div className="login-content">
@@ -98,6 +118,10 @@ const SignUp = () => {
 
                     <button className="buttons" id="login-btn" onClick={submitHandler} disabled={loading}>
                         {loading ? "Submitting..." : "Submit"}
+                    </button>
+
+                    <button className="buttons"  onClick={handleGoogleLogin}>
+                        Sign in with Google
                     </button>
 
                     <button className="buttons" id="rst-btn" onClick={resetHandler}>

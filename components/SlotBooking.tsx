@@ -198,6 +198,18 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
 
             if (response.status == 200) {
                 toast.success("Appointment booked")
+
+                const mailPayload = {
+                    toMail: "rishabh17704@gmail.com",
+                    subject: "Doctor profile created on Medcare",
+                    text: `Hey, Your slot is booked for ${selSlot.date} from ${selSlot.start_time} to ${selSlot.end_time}. Your slot type is ${slotType} at ${location}`
+                }
+
+                const mailResponse = await axios.post(`${API_BASE_URL}/api/mail`, mailPayload, { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } })
+
+                if (mailResponse.status == 200) {
+                    toast.success("Mail sent to patient")
+                }
                 setLoading(false)
                 return
             }
@@ -262,13 +274,13 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
 
                 <div className={styles.slotMonth}>
                     <div className={styles.slotLeft} onClick={() => monthNavigate(-1)}>
-                        <Image src={"/left-chevron.png"} alt="" fill/>
+                        <Image src={"/left-chevron.png"} alt="" fill />
                     </div>
 
                     <div>{currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
 
                     <div className={styles.slotLeft} onClick={() => monthNavigate(1)}>
-                    <Image src={"/right-chevron.png"} alt="" fill/>
+                        <Image src={"/right-chevron.png"} alt="" fill />
                     </div>
                 </div>
 

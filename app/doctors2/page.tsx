@@ -16,7 +16,7 @@ import Loader from "@/components/Loader"
 
 const Doctors = () => {
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
-    console.log("base url" , API_BASE_URL)
+    console.log("base url", API_BASE_URL)
     const router = useRouter()
     const { username, token } = useAuthContext()
     console.log("token and user from context ", username, token)
@@ -34,7 +34,7 @@ const Doctors = () => {
     const [currPage, setCurrPage] = useState(1)
     // const [docPerPage, setDocPerPage] = useState(6)
     const [loading, setLoading] = useState(false)
-    const [isFiltering , setIsFiltering] = useState<boolean>(false)
+    const [isFiltering, setIsFiltering] = useState<boolean>(false)
 
     const fetchDoctors = useCallback(async () => {
         try {
@@ -54,14 +54,13 @@ const Doctors = () => {
 
             console.log("doctors from fetcher : ", response.data?.docname)
             setFilterDoc(Array.isArray(response.data?.docname.doctors) ? response.data?.docname.doctors : [])
-            setDoctor(Array.isArray(response.data?.docname.doctors) ? response.data?.docname.doctors : [])
             setLoading(false)
 
         } catch (error: unknown) {
-            
+
             if (error instanceof Error) {
                 console.log("error at doctor fetching", error.message)
-            
+
             } else {
                 console.log("Unknown error occurred during doctor fetching");
             }
@@ -69,7 +68,7 @@ const Doctors = () => {
             setDoctor([])
             setLoading(false)
         }
-    } , [currPage , token])
+    }, [currPage, token])
 
     useEffect(() => {
         if (!token || !username) return
@@ -84,7 +83,7 @@ const Doctors = () => {
             fetchDoctors()
             // setFilterDoc()
         }
-    }, [token, username , currPage , fetchDoctors , router])
+    }, [token, username, currPage, fetchDoctors, router])
 
 
     // const addFilter = (search_value: string = termSearched, filterVal: FilterState = filter) => {
@@ -113,7 +112,7 @@ const Doctors = () => {
     //     }
     // }
 
-    const paginatedDoc = async() => {
+    const paginatedDoc = async () => {
         try {
             setIsFiltering(true)
             const queryParams = { ...filter, search: termSearchedRef.current }
@@ -121,21 +120,21 @@ const Doctors = () => {
 
             const url = `${API_BASE_URL}/doctors/page-doctors?page=1&limit=6&search=${queryParams.search}&rating[]=${queryParams.rating}&experience[]=${queryParams.experience}&gender[]=${queryParams.gender}`
 
-            const response = await axios.get(url , {
-                headers : {"Content-Type":"application/json"}
+            const response = await axios.get(url, {
+                headers: { "Content-Type": "application/json" }
             })
 
-            if(response.status == 200){
-                console.log("data from pagination" , response.data.docname.doctors)
+            if (response.status == 200) {
+                console.log("data from pagination", response.data.docname.doctors)
                 setFilterDoc(response.data.docname.doctors)
             }
             console.log(url)
             setIsFiltering(false)
-        } catch (error:unknown) {
-            
+        } catch (error: unknown) {
+
             if (error instanceof Error) {
-                console.log("some error occured while pagination" , error.message)
-            
+                console.log("some error occured while pagination", error.message)
+
             } else {
                 console.log("Unknown error occurred while pagination");
             }
@@ -205,7 +204,7 @@ const Doctors = () => {
                 {loading ? <div className={styles.Loader}>
                     <Loader></Loader>
                     Please wait while we fetching doctors for you
-                    </div> : <>
+                </div> : <>
                     <div className={styles.docContent}>
                         <div className={styles.docTitleAvail}>
                             {filterDoc.length} doctors available
@@ -219,7 +218,7 @@ const Doctors = () => {
                     <div className={styles.docContentSection}>
                         <div className={styles.docContentSectionInner}>
                             <Filter filters={filter} printFilters={paginatedDoc} onFilterChange={filterChangeHandler} onFilterReset={filterResetHandler}
-                            isFiltering={isFiltering} 
+                                isFiltering={isFiltering}
                             ></Filter>
 
                             <DocList doc={filterDoc || []} onDocClick={docProfile}></DocList>
@@ -235,19 +234,19 @@ const Doctors = () => {
                             }
                         </div> */}
 
-                        
+
                     </div>
 
                     <div className={styles.pagination}>
-                            <button className={styles.pageBtn} onClick={()=>pageChangehandler(-1)} disabled={currPage == 1}>prev</button>
-                            <div className={styles.pageBtnValue}>{currPage}</div>
-                            <button className={styles.pageBtn} onClick={()=>pageChangehandler(1)}>next</button>
-                        </div>
+                        <button className={styles.pageBtn} onClick={() => pageChangehandler(-1)} disabled={currPage == 1}>prev</button>
+                        <div className={styles.pageBtnValue}>{currPage}</div>
+                        <button className={styles.pageBtn} onClick={() => pageChangehandler(1)}>next</button>
+                    </div>
                 </>}
 
-                
 
-                
+
+
             </main>
         </div>
     )
