@@ -4,6 +4,7 @@ import "./signup.css"
 import toast from "react-hot-toast"
 import axios from "axios"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 
 const SignUp = () => {
@@ -15,6 +16,7 @@ const SignUp = () => {
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     const [loading , setLoading] = useState(false)
     const [message , setMessage] = useState("")
+    const router = useRouter()
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFormData({...formData , [e.target.name]:e.target.value})
@@ -51,14 +53,15 @@ const SignUp = () => {
                     setLoading(false)
                     return
                 }
-                toast.success(message)
+                toast.success("Successfully signed up")
                 setLoading(false)
+                router.push("/login")
                 return
             }
 
             if (response.status == 500){
                 
-                toast.error(message)
+                toast.error("Error occured while signing up")
                 setLoading(false)
                 return
             }

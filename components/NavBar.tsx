@@ -126,6 +126,8 @@ const NavBar = () => {
                             {/* <Link href={"/login"}><button className="loginbtn">Logout</button></Link> */}
                             <button className="signupbtn" onClick={logoutHandler}>Logout</button>
 
+                            <div className="username" onClick={()=>{router.push("/patientApp")}}>{username.split("")[0].toUpperCase()}</div>
+
                         </div> : <div className="nav-btn">
                             <Link href={"/login"}><button className="loginbtn">Login</button></Link>
                             <Link href={"/signup"}><button className="signupbtn">Register</button></Link>

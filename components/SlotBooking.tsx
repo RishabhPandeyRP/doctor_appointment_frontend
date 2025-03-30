@@ -7,6 +7,7 @@ import { useAuthContext } from "@/context/AppContext"
 import toast from "react-hot-toast"
 import Loader from "./Loader"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 
 interface SlotBooking {
     doc_list: DoctorExtended[];
@@ -45,6 +46,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
     const [availSlots, setAvailSlots] = useState<SlotInfo[]>([])
     const datesWrapperRef = useRef<HTMLDivElement>(null)
     const [isFetchingSlots, setFetchingSlots] = useState<boolean>(false)
+    const router = useRouter()
     // const [morningActive, setMorningActive] = useState<number>(0)
     // const [noonActive, setNoonActive] = useState<number>(0)
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
@@ -210,6 +212,12 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                 if (mailResponse.status == 200) {
                     toast.success("Mail sent to patient")
                 }
+                toast.success("Rate doctor in 5 sec")
+
+                setTimeout(()=>{
+                    router.push("/rating")
+                } , 5 * 1000)
+                
                 setLoading(false)
                 return
             }

@@ -70,7 +70,7 @@
 }
 
 #rst-btn{
-    
+    cursor: pointer;
     background-color: #c6b09a;
     color: white;
 }

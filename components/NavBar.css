@@ -80,6 +80,8 @@
     border: 0px solid black;
     display: flex;
     justify-content:end;
+    align-items: center;
+    gap: 10%;
 }
 
 .nav-btnMob {
@@ -134,6 +136,21 @@
     background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
     z-index: 80;
     display: none;
+}
+
+.username{
+    border: 0px solid red;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    font-weight: 600;
+    font-size: 20px;
+    color: #1C4A2A;
+    background-color: #1c4a2a35;
+    cursor: pointer;
 }
 
 /* .nav-btn{
