@@ -108,11 +108,25 @@
       flex-direction: column;
     }
 
+    .pagination {
+      width: 40%;
+  }
+  
+  .pageBtn {
+      padding: 0 15px;
+      font-size: 14px;
+  }
+
+  .pageBtnValue {
+      width: 40px;
+      height: 40px;
+  }
+
   }
   
   @media screen and (max-width: 768px) {
     .docTitleAvail{
-      border: 1px solid red;
+      border: 0px solid red;
       font-size: 45px;
       margin: 0 auto;
       text-align: center;
@@ -128,4 +142,45 @@
     .docContentSectionInner {
       flex-direction: column;
     }
+
+    .pagination {
+      width: 60%;
+      justify-content: center;
+      gap: 10px;
   }
+  
+  .pageBtn {
+      padding: 0 10px;
+      font-size: 13px;
+  }
+
+  .pageBtnValue {
+      width: 35px;
+      height: 35px;
+      font-size: 14px;
+  }
+  
+  .Loader {
+      font-size: 14px;
+      gap: 5px;
+  }
+  }
+
+  @media screen and (max-width: 480px) {
+    .pagination {
+        width: 80%;
+        flex-direction: row;
+        gap: 5px;
+    }
+    
+    .pageBtn {
+        padding: 0 8px;
+        font-size: 12px;
+    }
+
+    .pageBtnValue {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+}

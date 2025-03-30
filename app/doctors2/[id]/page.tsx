@@ -1,10 +1,11 @@
 import styles from "@/styles/DocProfile.module.css"
 import React from "react"
-import { notFound } from "next/navigation"
+// import { notFound } from "next/navigation"
 import Link from "next/link"
 import axios from "axios"
 import { cookies } from "next/headers"
 import Image from "next/image"
+import { redirect } from "next/navigation"
 
 
 export default async function DocProfile({ params }: { params: Promise<{ id?: string }> }) {
@@ -15,7 +16,7 @@ export default async function DocProfile({ params }: { params: Promise<{ id?: st
     const id = (await params)?.id
 
     if (!token || !id) {
-        return notFound()
+        redirect("/login") 
     }
 
     const response = await axios.get(`${API_BASE_URL}/doctors/${id}`, {

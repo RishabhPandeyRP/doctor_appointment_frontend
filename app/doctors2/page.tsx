@@ -10,7 +10,7 @@ import { FilterState } from "@/data/doctors.types"
 import styles from "@/styles/DoctorSearch2.module.css"
 import { useAuthContext } from "@/context/AppContext"
 import axios from "axios"
-import Cookies from "js-cookie"
+// import Cookies from "js-cookie"
 import { useRef } from "react"
 import Loader from "@/components/Loader"
 
@@ -47,9 +47,9 @@ const Doctors = () => {
             // })
 
             const response = await axios.get(`${API_BASE_URL}/doctors/page-doctors?page=${currPage}&limit=6`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                // headers: {
+                //     Authorization: `Bearer ${token}`
+                // }
             })
 
             console.log("doctors from fetcher : ", response.data?.docname)
@@ -71,19 +71,10 @@ const Doctors = () => {
     }, [currPage, token])
 
     useEffect(() => {
-        if (!token || !username) return
-        console.log("token and user in useeffect ", username, token)
-        const cookieUsername = Cookies.get("username")
-        console.log("this is username ", cookieUsername)
-        if (!cookieUsername) {
-            router.push("/login")
-        }
-        else {
             console.log("inside fetching consdition")
             fetchDoctors()
             // setFilterDoc()
-        }
-    }, [token, username, currPage, fetchDoctors, router])
+    }, [currPage, fetchDoctors, router])
 
 
     // const addFilter = (search_value: string = termSearched, filterVal: FilterState = filter) => {
