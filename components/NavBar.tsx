@@ -56,12 +56,12 @@ const NavBar = () => {
 
     useEffect(()=>{
         if(!username){
-            toast.error("Please login in")
+            // toast.error("Please login in")
             return
         }
         const cookieToken = Cookies.get("token")
         if(!cookieToken){
-            toast.error("Please login in")
+            // toast.error("Please login in")
             return
         }
         else{
