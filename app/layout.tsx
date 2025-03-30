@@ -1,4 +1,3 @@
-// import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { Toaster } from "react-hot-toast";
@@ -7,9 +6,9 @@ import { Montserrat } from "next/font/google";
 import Footer from "@/components/Footer";
 
 const montserrat = Montserrat({
-  subsets: ["latin"], // Supports Latin characters
-  weight: ["400", "500", "700"], // Load specific font weights
-  variable: "--font-montserrat", // Define a CSS variable for the font
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], 
+  variable: "--font-montserrat", 
 });
 
 export default function RootLayout({

@@ -47,8 +47,6 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
     const datesWrapperRef = useRef<HTMLDivElement>(null)
     const [isFetchingSlots, setFetchingSlots] = useState<boolean>(false)
     const router = useRouter()
-    // const [morningActive, setMorningActive] = useState<number>(0)
-    // const [noonActive, setNoonActive] = useState<number>(0)
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
 
     const slotChangeHandler = () => {
@@ -125,8 +123,6 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
         return hour < 12 ? "AM" : "PM"
     }
 
-    // console.log("availSlots ", availSlots)
-
     const displayMorningSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "AM")
     const displayNoonSlots = availSlots.filter(slot => getAMPM(slot.start_time) === "PM")
 
@@ -175,7 +171,6 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                 alert("plase sel date and slot")
                 return
             }
-            // const date = new Date(selSlot.date).toISOString()
 
             const payload = {
                 "doctor_id": Number(id),
@@ -189,8 +184,6 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
             }
 
             setLoading(true)
-
-            // await new Promise(res => setTimeout(res, 1500))
 
             console.log("this is payload ", payload)
 
@@ -222,7 +215,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                 return
             }
 
-            // alert(`appointment request sent ${selSlot.start_time} ${selSlot.slotId} ${selSlot.date}`)
+           
             toast.error("Some error occured while booking slot")
             setLoading(false)
         } catch (error: unknown) {
@@ -264,11 +257,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
                     <div className={styles.slotHeaderTitle}>
                         Schedule Appointment
                     </div>
-                    {/* <div>
-                        <button>
-                            Book Appointment
-                        </button>
-                    </div> */}
+                    
                 </div>
 
                 <div className={styles.slotTypeBox}>

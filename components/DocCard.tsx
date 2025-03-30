@@ -1,6 +1,5 @@
 import React from "react"
 import styles from "@/styles/DocCard.module.css"
-// import { Doctor } from "@/data/doctors.types"
 import { DoctorBackend } from "@/data/doctors.types"
 import Image from "next/image"
 

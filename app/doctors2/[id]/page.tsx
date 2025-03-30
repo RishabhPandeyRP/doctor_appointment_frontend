@@ -1,9 +1,6 @@
 import styles from "@/styles/DocProfile.module.css"
 import React from "react"
-// import doc_list from "@/data/doctors.json"
 import { notFound } from "next/navigation"
-// import { Doctor } from "@/data/doctors.types"
-// import { redirect } from "next/navigation"
 import Link from "next/link"
 import axios from "axios"
 import { cookies } from "next/headers"
@@ -28,10 +25,6 @@ export default async function DocProfile({ params }: { params: Promise<{ id?: st
     })
 
     console.log("response from profile is ", response.data.docname)
-
-    // const bookingNavigate = () => {
-    //     redirect(`/doctors2/${id}/bookSlot`)
-    // }
 
     return (
         <div className={styles.profileDiv}>

@@ -20,7 +20,6 @@
     font-weight: 500;
   }
   
-  /* Search Section */
 
   .search{
     border: 0px solid red;
@@ -67,7 +66,6 @@
     background-color: #3182ce;
   }
   
-  /* Content Section */
 
   .doctorContent{
     width: fit-content;
@@ -96,7 +94,6 @@
     gap: 30px;
   }
   
-  /* Filters */
   .filtersContainer {
     width: 25%;
     background-color: #f8fafc;
@@ -160,7 +157,6 @@
     cursor: pointer;
   }
   
-  /* Doctor Cards */
   .doctorsContainer {
     flex: 1;
     display: grid;
@@ -180,8 +176,6 @@
     transform: translateY(-5px);
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   }
-  
-  /* styles/DoctorSearch.module.css (continued) */
 
 .doctorImageContainer {
     height: 180px;
@@ -261,8 +255,6 @@
   
   .appointmentButton {
     width: 100%;
-    /* background-color: #4299e1; */
-    /* color: white; */
     border: 1px solid rgba(0, 0, 0, 0.092);
     border-radius: 6px;
     padding: 10px 0;
@@ -273,9 +265,6 @@
     margin-bottom: 0;
   }
   
-  /* .appointmentButton:hover {
-    background-color: #3182ce;
-  } */
   
   .noResults {
     grid-column: 1 / -1;
@@ -314,7 +303,6 @@
   }
   
   .activePage {
-    /* background-color: #007bff; */
     color: #1c4a2a;
     border-color: #1c4a2a;
   }
@@ -323,7 +311,7 @@
     margin: 0 8px;
   }
   
-  /* Responsive Design */
+ 
   @media (max-width: 768px) {
     .contentSection {
       flex-direction: column;

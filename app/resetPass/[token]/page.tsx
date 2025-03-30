@@ -8,7 +8,7 @@ import { useRouter, useParams } from "next/navigation";
 const ResetPassword = () => {
     const router = useRouter();
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
-    const { token } = useParams(); // Extract token from URL
+    const { token } = useParams(); 
 
     const [formData, setFormData] = useState({
         password: "",
@@ -37,7 +37,7 @@ const ResetPassword = () => {
 
             if(response.status == 200){
                 toast.success(response.data.message);
-            setTimeout(() => router.push("/login"), 3000); // Redirect to login page
+            setTimeout(() => router.push("/login"), 3000); 
             }
 
             

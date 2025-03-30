@@ -5,7 +5,6 @@ import styles from '@/styles/Rating.module.css';
 export default function Rating() {
   const [rating, setRating] = useState<number>(0);
   const [submitted, setSubmitted] = useState(false);
-//   const [doctorName, setDoctorName] = useState('');
 
   const handleRating = (value:number) => {
     setRating(value);
@@ -15,16 +14,11 @@ export default function Rating() {
     e.preventDefault();
     if (rating > 0) {
       setSubmitted(true);
-      // Here you would typically send the data to your backend
+      
       console.log({ rating });
     }
   };
 
-//   const resetForm = () => {
-//     setRating(0);
-//     setSubmitted(false);
-//     setDoctorName('');
-//   };
 
   return (
     <main className={styles.main}>
@@ -33,17 +27,6 @@ export default function Rating() {
         
         {!submitted ? (
           <form onSubmit={handleSubmit} className={styles.form}>
-            {/* <div className={styles.inputGroup}>
-              <label htmlFor="doctorName" className={styles.label}>Doctor Name</label>
-              <input
-                type="text"
-                id="doctorName"
-                value={doctorName}
-                onChange={(e) => setDoctorName(e.target.value)}
-                className={styles.input}
-                required
-              />
-            </div> */}
             
             <div className={styles.ratingContainer}>
               <p className={styles.label}>Rate your experience (1-5):</p>
@@ -74,9 +57,6 @@ export default function Rating() {
           <div className={styles.thankYou}>
             <h2>Thank You!</h2>
             <p>You rated {rating} out of 5 stars.</p>
-            {/* <button onClick={resetForm} className={styles.button}>
-              Rate Another Doctor
-            </button> */}
           </div>
         )}
       </div>

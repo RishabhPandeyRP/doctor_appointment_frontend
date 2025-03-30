@@ -132,10 +132,6 @@ const SignUp = () => {
                     </button>
                 </form>
 
-
-                {/* <div className="forgot-pass">
-                    Forgot Password ?
-                </div> */}
             </div>
         </div>
     )

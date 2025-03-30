@@ -24,7 +24,7 @@ const Filter = ({onFilterChange , onFilterReset , filters , printFilters , isFil
                 </button>
             </div>
 
-            {/* rating */}
+            
             <div className={styles.filterCategory}> 
                 <h3>Rating</h3>
                 {
@@ -44,7 +44,7 @@ const Filter = ({onFilterChange , onFilterReset , filters , printFilters , isFil
                 }
             </div>
 
-            {/* exp */}
+            
             <div className={styles.filterCategory}>
                 <h3>Experience</h3>
                 {
@@ -64,7 +64,7 @@ const Filter = ({onFilterChange , onFilterReset , filters , printFilters , isFil
                 }
             </div>
 
-            {/* gender */}
+            
             <div className={styles.filterCategory}>
                 <h3>Gender</h3>
                 {

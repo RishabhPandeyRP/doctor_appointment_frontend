@@ -11,33 +11,24 @@ const Success = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const {login} = useAuthContext()
-//   const [token, setToken] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     setToken(searchParams.get("token"));
-//   }, [searchParams]);
 
   useEffect(() => {
     if (token) {
-      // Store the token securely
       Cookies.set("token", token, { expires: 1 });
 
       try {
-        // Decode JWT to get user details
+
         const decoded: {id:string , name:string} = jwtDecode(token);
-        const { id, name } = decoded; // Assuming JWT payload contains these fields
-
-        // Call your login function
+        const { id, name } = decoded; 
         login(token, name, String(id));
-
-        // Redirect user after successful login
         router.push("/");
+
       } catch (error) {
         console.error("Error decoding JWT:", error);
-        router.push("/login"); // Redirect if JWT is invalid
+        router.push("/login"); 
       }
     } else {
-      router.push("/login"); // Redirect if no token
+      router.push("/login");
     }
   }, [token, router]);
 

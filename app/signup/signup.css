@@ -5,13 +5,9 @@
     height: fit-content;
     background-image: url("../../public/loginBG.svg");
     /* margin-top: 0; */
-    
     background-repeat: no-repeat;
     background-size: cover;
     
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center; */
 }
 
 .login-content{

@@ -109,7 +109,7 @@
     }
 
   }
-  /* Responsive Design */
+  
   @media screen and (max-width: 768px) {
     .docTitleAvail{
       border: 1px solid red;

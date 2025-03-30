@@ -3,7 +3,6 @@ import "./login.css"
 import toast from "react-hot-toast"
 import { useState } from "react"
 import axios from "axios"
-// import Cookies from "js-cookie"
 import { useRouter } from "next/navigation"
 import { useAuthContext } from "@/context/AppContext"
 import Link from "next/link"
@@ -40,14 +39,9 @@ const Login = () => {
             login(token , username , String(id))
 
 
-
-            // Cookies.set("token",token,{expires:1})
-            // Cookies.set("username",username,{expires:1})
-
-
             if(response.status == 200){
                 
-                // toast.success(message)
+                
                 setLoading(false)
                 router.push("/")
                 return

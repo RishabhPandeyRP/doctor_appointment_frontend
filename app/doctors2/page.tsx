@@ -1,11 +1,11 @@
 "use client"
+// in this code the commented part is for frontend pagination and filteration
 import SearchBar from "@/components/SearchBar"
 import Filter from "@/components/Filter"
 import DocList from "@/components/DocList"
 // import Pagination from "@/components/Pagination"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-// import doc_list from "@/data/doctors.json"
 import { FilterState } from "@/data/doctors.types"
 import styles from "@/styles/DoctorSearch2.module.css"
 import { useAuthContext } from "@/context/AppContext"
@@ -161,7 +161,7 @@ const Doctors = () => {
 
     const filterResetHandler = () => {
         // setTermSearched('')
-        // termSearchedRef.current = ''
+       
         setFilter({
             rating: [],
             experience: [],
