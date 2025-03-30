@@ -6,49 +6,55 @@ import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useAuthContext } from "@/context/AppContext"
 import Link from "next/link"
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
     const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL;
     const router = useRouter()
-    const {login} = useAuthContext()
-    const [formData , setFormData] = useState({
-        email : "",
-        password : ""
+    const { login } = useAuthContext()
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
     })
-    const [loading , setLoading] = useState(false)
-    const [message , setMessage] = useState("")
-    const [isForgot , setIsForgot] = useState<boolean>(false)
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState("")
+    const [isForgot, setIsForgot] = useState<boolean>(false)
+    const [showPass, setShowPass] = useState(false);
 
-    const changeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
-        setFormData({...formData , [e.target.name]:e.target.value})
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const loginHandler = async (e:React.FormEvent)=>{
+    const toggleShowPass = () => {
+        setShowPass(prevState => !prevState);
+    };
+
+    const loginHandler = async (e: React.FormEvent) => {
         e.preventDefault()
 
         try {
             setLoading(true)
             setMessage("")
-            console.log("this is form data" , formData)
-            const response = await axios.post(`${API_BASE_URL}/auth/login` , formData , {headers:{"Content-Type":"application/json"}})
-             setMessage(response.data.message)
+            console.log("this is form data", formData)
+            const response = await axios.post(`${API_BASE_URL}/auth/login`, formData, { headers: { "Content-Type": "application/json" } })
+            setMessage(response.data.message)
             console.log(message)
             console.log("login response ", response.data)
-            const {token , username , id} = response.data;
+            const { token, username, id } = response.data;
 
-            login(token , username , String(id))
+            login(token, username, String(id))
 
 
-            if(response.status == 200){
-                
-                
+            if (response.status == 200) {
+
+
                 setLoading(false)
                 router.push("/")
                 return
             }
 
-            if (response.status == 500){
-                
+            if (response.status == 500) {
+
                 toast.error("Error while logged you in")
                 setLoading(false)
                 return
@@ -56,8 +62,8 @@ const Login = () => {
 
             toast.error("Some error occured")
             setLoading(false)
-            
-        } catch (error:unknown) {
+
+        } catch (error: unknown) {
             if (error instanceof Error) {
                 console.log("Error during login:", error.message);
                 toast.error("Error while logging in");
@@ -68,25 +74,25 @@ const Login = () => {
             setLoading(false)
         }
 
-        
+
     }
 
-    const forgotHandler = async(e:React.FormEvent)=>{
-        if(isForgot) return
+    const forgotHandler = async (e: React.FormEvent) => {
+        if (isForgot) return
         try {
             setIsForgot(true)
             e.preventDefault()
             const email = formData.email
 
-            const response = await axios.post(`${API_BASE_URL}/auth/request-password-reset` , {email} , {headers:{"Content-Type":"application/json"}})
+            const response = await axios.post(`${API_BASE_URL}/auth/request-password-reset`, { email }, { headers: { "Content-Type": "application/json" } })
 
-            if(response.status == 200){
+            if (response.status == 200) {
                 toast.success("Resent mail sent , link is only valid for 10 minutes")
                 setIsForgot(false)
                 return
             }
             setIsForgot(false)
-        } catch (error:unknown) {
+        } catch (error: unknown) {
             if (error instanceof Error) {
                 console.log("Error during requesting reset password:", error.message);
                 toast.error("Error while reset password");
@@ -98,9 +104,9 @@ const Login = () => {
         }
     }
 
-    const resetHandler = (e:React.FormEvent)=>{
+    const resetHandler = (e: React.FormEvent) => {
         e.preventDefault()
-        setFormData({email:"" , password:""})
+        setFormData({ email: "", password: "" })
     }
 
     return (
@@ -111,16 +117,23 @@ const Login = () => {
                 <div>
                     <span className="muted-text">Are you a new member?</span>
                     <Link href={"/signup"}><span className="muted-text-2">Sign up here.</span></Link>
-                    
+
                 </div>
 
 
                 <form className="login-form">
                     <label htmlFor="email" className="muted-text">Email</label>
+                    <div className="input-container">
                     <input type="email" name="email" placeholder="enter your email" value={formData.email} onChange={changeHandler} id="email" className="inputs" />
+                    </div>
 
                     <label htmlFor="password" className="muted-text">Password</label>
-                    <input type="password" name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" />
+                    <div className="input-container">
+                        <input type={showPass ? "text" : "password"} name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" />
+                        <span className="password-toggle" onClick={toggleShowPass}>
+                            {showPass ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
 
 
                     <button className="buttons" id="login-btn" onClick={loginHandler} disabled={loading}>
@@ -134,7 +147,7 @@ const Login = () => {
 
 
                 <div className="forgot-pass" onClick={forgotHandler}>
-                    {isForgot ? "please wait..." : "Forgot Password" }
+                    {isForgot ? "please wait..." : "Forgot Password"}
                 </div>
             </div>
         </div>

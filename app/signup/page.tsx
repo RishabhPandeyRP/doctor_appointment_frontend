@@ -5,6 +5,7 @@ import toast from "react-hot-toast"
 import axios from "axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
 const SignUp = () => {
@@ -17,6 +18,11 @@ const SignUp = () => {
     const [loading , setLoading] = useState(false)
     const [message , setMessage] = useState("")
     const router = useRouter()
+    const [showPass, setShowPass] = useState(false);
+
+    const toggleShowPass = () => {
+        setShowPass(prevState => !prevState);
+    };
 
     const changeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFormData({...formData , [e.target.name]:e.target.value})
@@ -110,13 +116,24 @@ const SignUp = () => {
 
                 <form className="login-form">
                     <label htmlFor="name" className="muted-text">Name</label>
+                    <div className="input-container">
                     <input type="text" name="name" placeholder="enter your name" value={formData.name} onChange={changeHandler} id="name" className="inputs" />
+                    </div>
 
                     <label htmlFor="email" className="muted-text">Email</label>
+                    <div className="input-container">
                     <input type="email" name="email" placeholder="enter your email" value={formData.email} onChange={changeHandler} id="email" className="inputs" />
+                    </div>
 
                     <label htmlFor="password" className="muted-text">Password</label>
-                    <input type="password" name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" />
+                    {/* <input type="password" name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" /> */}
+
+                    <div className="input-container">
+                        <input type={showPass ? "text" : "password"} name="password" placeholder="enter your password" value={formData.password} onChange={changeHandler} id="password" className="inputs" />
+                        <span className="password-toggle" onClick={toggleShowPass}>
+                            {showPass ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
 
 
                     <button className="buttons" id="login-btn" onClick={submitHandler} disabled={loading}>

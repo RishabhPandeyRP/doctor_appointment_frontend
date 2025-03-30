@@ -44,11 +44,13 @@ const NavBar = () => {
             if (error instanceof Error) {
                 console.log("Error in navbar" , error.message)
                 toast.error("Your session expired, please login again")
-            
+                
+                
             } else {
                 console.log("Unknown Error in navbar");
                 toast.error("Unknown Error in navbar");
             }
+            logout()
         }
     }
 
