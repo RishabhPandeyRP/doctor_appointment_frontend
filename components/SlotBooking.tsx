@@ -135,6 +135,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
 
     const slotSelecthandler = (slotId: number) => {
         const selectedSlotArr = availSlots.find(slot => slot.id === slotId)
+        console.log()
         if (selSlot == null) {
 
             if (selectedSlotArr && selectedSlotArr.is_available) {
