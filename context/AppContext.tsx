@@ -40,7 +40,8 @@ export const AuthProvider = ({children} : {children : ReactNode})=>{
             sameSite: 'strict'})
         Cookies.set("username" , username , {expires:1,secure: true,
             sameSite: 'strict'})
-        Cookies.set("userid" , userid , {expires:1})
+        Cookies.set("userid" , userid , {expires:1,secure: true,
+            sameSite: 'strict'})
         setUsername(username)
         setToken(token)
         setUserId(userid)
