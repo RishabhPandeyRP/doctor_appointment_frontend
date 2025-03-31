@@ -196,7 +196,7 @@ const SlotBooking = ({ id, location }: SlotBooking) => {
 
                 const mailPayload = {
                     toMail: "rishabh17704@gmail.com",
-                    subject: "Doctor profile created on Medcare",
+                    subject: "Appointment Booked",
                     text: `Hey, Your slot is booked for ${selSlot.date} from ${selSlot.start_time} to ${selSlot.end_time}. Your slot type is ${slotType} at ${location}`
                 }
 

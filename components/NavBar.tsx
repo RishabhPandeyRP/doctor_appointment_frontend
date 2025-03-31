@@ -32,6 +32,11 @@ const NavBar = () => {
     const checkLogin = async(token:string)=>{
         try {
             const response = await axios.get(`${API_BASE_URL}/auth/verifyToken/${token}`)
+
+            if(response.status == 500){
+                toast.error("Your session expired, please login again")
+                return
+            }
             if(response.status == 200){
                 toast.success(`Welcome ${response.data.data.email}`)
                 return
