@@ -69,6 +69,7 @@
     padding: 4% 1%;
     border-radius: 10px;
     border: none;
+    cursor: pointer;
 }
 
 #login-btn{
